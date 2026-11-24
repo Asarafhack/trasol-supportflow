@@ -14,7 +14,9 @@ from app.api.endpoints import (
 
 api_router = APIRouter()
 
+# Authentication: mounted both with /auth and at root for full endpoint compatibility
 api_router.include_router(auth.router, prefix="/auth", tags=["Authentication"])
+api_router.include_router(auth.router, tags=["Authentication Direct"])
 api_router.include_router(customers.router, prefix="/customers", tags=["Customers"])
 api_router.include_router(products_orders.router, tags=["Products & Orders"])
 api_router.include_router(tickets.router, prefix="/tickets", tags=["Tickets"])

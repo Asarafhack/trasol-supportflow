@@ -125,14 +125,6 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const setDemoCredentials = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setError(null);
-    setInfoMessage(null);
-    setLoginMode('PASSWORD');
-  };
-
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-6 bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800">
@@ -181,45 +173,6 @@ export const LoginPage: React.FC = () => {
             <KeyRound className="w-3.5 h-3.5" />
             Email OTP Login
           </button>
-        </div>
-
-        {/* 1-Click Quick Demo Selectors */}
-        <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700/60 space-y-2">
-          <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500">
-            <span className="flex items-center gap-1"><Zap className="w-3.5 h-3.5 text-amber-500" /> Demo Accounts</span>
-            <span className="text-[10px] text-slate-400">Click to fill</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => setDemoCredentials('admin@trasol.com', 'trasol2026')}
-              className="p-2.5 text-left bg-indigo-50/70 dark:bg-indigo-950/40 border-2 border-indigo-500 rounded-lg hover:bg-indigo-100/50 transition-colors col-span-2 shadow-xs"
-            >
-              <div className="font-bold text-indigo-700 dark:text-indigo-300 flex items-center justify-between">
-                <span>★ Trasol Primary Admin</span>
-                <span className="text-[10px] px-2 py-0.5 bg-indigo-600 text-white rounded font-mono font-bold">Password: trasol2026</span>
-              </div>
-              <div className="text-xs text-indigo-900 dark:text-indigo-200 font-mono mt-0.5">admin@trasol.com</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setDemoCredentials('customer.john@example.com', 'Customer@12345')}
-              className="p-2 text-left bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:border-blue-500 transition-colors"
-            >
-              <div className="font-semibold text-blue-700 dark:text-blue-300">Customer John</div>
-              <div className="text-[10px] text-slate-500 truncate">customer.john@example.com</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setDemoCredentials('agent.sarah@trasol.tech', 'Agent@12345')}
-              className="p-2 text-left bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg hover:border-amber-500 transition-colors"
-            >
-              <div className="font-semibold text-amber-700 dark:text-amber-300">Support Agent</div>
-              <div className="text-[10px] text-slate-500 truncate">agent.sarah@trasol.tech</div>
-            </button>
-          </div>
         </div>
 
         {error && (

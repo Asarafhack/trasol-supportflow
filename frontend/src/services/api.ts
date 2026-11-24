@@ -13,8 +13,11 @@ import {
   AdminDashboardStats,
 } from '../types';
 
-const VITE_API = import.meta.env.VITE_API_URL ? String(import.meta.env.VITE_API_URL).replace(/\/$/, '') : '';
-const API_BASE = `${VITE_API}/api/v1`;
+const rawApiUrl = import.meta.env.VITE_API_URL ? String(import.meta.env.VITE_API_URL).trim().replace(/\/+$/, '') : '';
+// Prevent doubled '/api/v1' regardless of how VITE_API_URL is configured on Vercel
+const API_BASE = rawApiUrl
+  ? (rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawApiUrl}/api/v1`)
+  : '/api/v1';
 
 class ApiService {
   private getToken(): string | null {

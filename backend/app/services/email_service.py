@@ -91,9 +91,21 @@ class EmailService:
                         delivery_status = "FAILED"
                         logger.warning(f"Brevo email failed: {error_message}")
                         if require_brevo:
+                            resp_text = response.text
+                            if "unrecognised IP" in resp_text or "authorised_ips" in resp_text:
+                                detail_msg = (
+                                    "Brevo IP Restriction (HTTP 401): Brevo detected an unrecognised IP address. "
+                                    "Please whitelist your IP address or disable Authorized IPs at: "
+                                    "https://app.brevo.com/security/authorised_ips"
+                                )
+                            elif response.status_code == 401:
+                                detail_msg = "Brevo Authentication Error (HTTP 401): Invalid API key or unauthorized IP. Check Brevo security settings."
+                            else:
+                                detail_msg = f"Brevo email dispatch rejected ({response.status_code}): {resp_text}"
+
                             raise HTTPException(
                                 status_code=status.HTTP_502_BAD_GATEWAY,
-                                detail=f"Brevo email dispatch rejected ({response.status_code}): {response.text}"
+                                detail=detail_msg
                             )
             except HTTPException:
                 raise

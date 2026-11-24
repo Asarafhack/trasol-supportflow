@@ -32,12 +32,24 @@ app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads"
 # Include API v1 router
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
+# Include fallback alias for any clients with doubled /api/v1 prefix
+app.include_router(api_router, prefix="/api/v1/api/v1")
+
+# Direct root authentication routes (/login, /register, etc.)
+from app.api.endpoints.auth import router as auth_direct_router
+app.include_router(auth_direct_router, tags=["Authentication Root Aliases"])
+
 # Include direct WebSocket routes (/ws/notifications and /ws/tickets/{ticket_id})
 app.include_router(ws_root_router, prefix="/ws")
 
 @app.on_event("startup")
 def on_startup():
     init_db()
+    try:
+        from app.seed import run_seed
+        run_seed()
+    except Exception as e:
+        print(f"Startup database initialization: {e}")
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["Health"])
 @app.get("/api/v1/health", status_code=status.HTTP_200_OK, tags=["Health"])

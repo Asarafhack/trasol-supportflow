@@ -171,9 +171,22 @@ export const RegisterPage: React.FC = () => {
             </div>
 
             {error && (
-              <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                <span>{typeof error === 'string' ? error : JSON.stringify(error)}</span>
+              <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <span className="font-semibold">Dispatch Notice</span>
+                </div>
+                <p>{typeof error === 'string' ? error : JSON.stringify(error)}</p>
+                {typeof error === 'string' && error.includes('authorised_ips') && (
+                  <a
+                    href="https://app.brevo.com/security/authorised_ips"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 font-bold text-red-800 dark:text-red-200 underline mt-1"
+                  >
+                    Authorize IP in Brevo Dashboard →
+                  </a>
+                )}
               </div>
             )}
 
@@ -318,9 +331,22 @@ export const RegisterPage: React.FC = () => {
             </div>
 
             {error && (
-              <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                <span>{typeof error === 'string' ? error : JSON.stringify(error)}</span>
+              <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <span className="font-semibold">Dispatch Notice</span>
+                </div>
+                <p>{typeof error === 'string' ? error : JSON.stringify(error)}</p>
+                {typeof error === 'string' && error.includes('authorised_ips') && (
+                  <a
+                    href="https://app.brevo.com/security/authorised_ips"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 font-bold text-red-800 dark:text-red-200 underline mt-1"
+                  >
+                    Authorize IP in Brevo Dashboard →
+                  </a>
+                )}
               </div>
             )}
 

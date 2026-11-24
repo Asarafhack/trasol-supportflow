@@ -18,6 +18,23 @@ interface SocketContextType {
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
+const resolveWebSocketBase = (): string => {
+  if (import.meta.env.VITE_WS_URL) {
+    return String(import.meta.env.VITE_WS_URL).trim().replace(/\/+$/, '');
+  }
+  if (import.meta.env.VITE_API_URL) {
+    const rawApi = String(import.meta.env.VITE_API_URL).trim().replace(/\/+$/, '');
+    if (rawApi.startsWith('http://') || rawApi.startsWith('https://')) {
+      return rawApi
+        .replace(/^http:\/\//, 'ws://')
+        .replace(/^https:\/\//, 'wss://')
+        .replace(/\/api\/v1$/, '');
+    }
+  }
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${protocol}//${window.location.host}`;
+};
+
 export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { token, user } = useAuth();
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -49,10 +66,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     refreshNotifications();
 
     // Connect to WebSocket notification channel
-    const customWs = import.meta.env.VITE_WS_URL ? String(import.meta.env.VITE_WS_URL).replace(/\/$/, '') : '';
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const host = window.location.host;
-    const baseWs = customWs || `${protocol}//${host}`;
+    const baseWs = resolveWebSocketBase();
     const wsUrl = `${baseWs}/ws/notifications?token=${token}`;
 
     const ws = new WebSocket(wsUrl);
@@ -132,10 +146,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const createTicketSocket = (ticketId: string, onMessage: (data: any) => void): WebSocket | null => {
     if (!token) return null;
-    const customWs = import.meta.env.VITE_WS_URL ? String(import.meta.env.VITE_WS_URL).replace(/\/$/, '') : '';
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const host = window.location.host;
-    const baseWs = customWs || `${protocol}//${host}`;
+    const baseWs = resolveWebSocketBase();
     const wsUrl = `${baseWs}/ws/tickets/${ticketId}?token=${token}`;
     const ws = new WebSocket(wsUrl);
 
