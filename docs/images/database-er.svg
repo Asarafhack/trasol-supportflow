@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" width="100%" height="100%" style="background:#0f172a; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+
+  <text x="40" y="45" fill="url(#dbGrad)" font-size="24" font-weight="800">Database Entity-Relationship Architecture</text>
+  <text x="40" y="70" fill="#94a3b8" font-size="13">SQLAlchemy 2.0 Schema: Core tables, relational foreign keys &amp; integrity constraints</text>
+
+  <!-- TABLE: users -->
+  <g transform="translate(40, 100)">
+    <rect width="210" height="230" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect width="210" height="30" rx="8" fill="#1e40af"/>
+    <text x="15" y="20" fill="#ffffff" font-size="12" font-weight="700">users</text>
+    <text x="15" y="50" fill="#38bdf8" font-size="11">PK  id : VARCHAR</text>
+    <text x="15" y="70" fill="#cbd5e1" font-size="11">     email : VARCHAR (UQ)</text>
+    <text x="15" y="90" fill="#cbd5e1" font-size="11">     hashed_password : VARCHAR</text>
+    <text x="15" y="110" fill="#cbd5e1" font-size="11">     full_name : VARCHAR</text>
+    <text x="15" y="130" fill="#cbd5e1" font-size="11">     role : VARCHAR</text>
+    <text x="15" y="150" fill="#cbd5e1" font-size="11">     is_verified : BOOLEAN</text>
+    <text x="15" y="170" fill="#cbd5e1" font-size="11">     verification_otp : TEXT (hash)</text>
+    <text x="15" y="190" fill="#cbd5e1" font-size="11">     otp_expires_at : TIMESTAMP</text>
+    <text x="15" y="210" fill="#cbd5e1" font-size="11">     failed_otp_attempts : INT</text>
+  </g>
+
+  <!-- TABLE: tickets -->
+  <g transform="translate(380, 100)">
+    <rect width="240" height="250" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <rect width="240" height="30" rx="8" fill="#065f46"/>
+    <text x="15" y="20" fill="#ffffff" font-size="12" font-weight="700">tickets</text>
+    <text x="15" y="50" fill="#34d399" font-size="11">PK  id : VARCHAR</text>
+    <text x="15" y="70" fill="#cbd5e1" font-size="11">     ticket_number : VARCHAR (UQ)</text>
+    <text x="15" y="90" fill="#f59e0b" font-size="11">FK  customer_id -> users.id</text>
+    <text x="15" y="110" fill="#f59e0b" font-size="11">FK  product_id -> products.id</text>
+    <text x="15" y="130" fill="#f59e0b" font-size="11">FK  order_id -> orders.id</text>
+    <text x="15" y="150" fill="#f59e0b" font-size="11">FK  assigned_agent_id -> users.id</text>
+    <text x="15" y="170" fill="#cbd5e1" font-size="11">     subject : VARCHAR</text>
+    <text x="15" y="190" fill="#cbd5e1" font-size="11">     priority : VARCHAR</text>
+    <text x="15" y="210" fill="#cbd5e1" font-size="11">     status : VARCHAR</text>
+    <text x="15" y="230" fill="#cbd5e1" font-size="11">     sla_deadline : TIMESTAMP</text>
+  </g>
+
+  <!-- TABLE: products -->
+  <g transform="translate(730, 100)">
+    <rect width="220" height="150" rx="8" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+    <rect width="220" height="30" rx="8" fill="#3730a3"/>
+    <text x="15" y="20" fill="#ffffff" font-size="12" font-weight="700">products</text>
+    <text x="15" y="50" fill="#818cf8" font-size="11">PK  id : VARCHAR</text>
+    <text x="15" y="70" fill="#cbd5e1" font-size="11">     name : VARCHAR</text>
+    <text x="15" y="90" fill="#cbd5e1" font-size="11">     sku : VARCHAR (UQ)</text>
+    <text x="15" y="110" fill="#cbd5e1" font-size="11">     price : FLOAT</text>
+    <text x="15" y="130" fill="#cbd5e1" font-size="11">     warranty_months : INT</text>
+  </g>
+
+  <!-- TABLE: orders -->
+  <g transform="translate(730, 280)">
+    <rect width="220" height="150" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect width="220" height="30" rx="8" fill="#78350f"/>
+    <text x="15" y="20" fill="#ffffff" font-size="12" font-weight="700">orders</text>
+    <text x="15" y="50" fill="#fbbf24" font-size="11">PK  id : VARCHAR</text>
+    <text x="15" y="70" fill="#cbd5e1" font-size="11">     order_number : VARCHAR (UQ)</text>
+    <text x="15" y="90" fill="#38bdf8" font-size="11">FK  customer_id -> users.id</text>
+    <text x="15" y="110" fill="#cbd5e1" font-size="11">     total_amount : FLOAT</text>
+    <text x="15" y="130" fill="#cbd5e1" font-size="11">     status : VARCHAR</text>
+  </g>
+
+  <!-- TABLE: ticket_messages -->
+  <g transform="translate(40, 420)">
+    <rect width="220" height="160" rx="8" fill="#1e293b" stroke="#ec4899" stroke-width="1.5"/>
+    <rect width="220" height="30" rx="8" fill="#831843"/>
+    <text x="15" y="20" fill="#ffffff" font-size="12" font-weight="700">ticket_messages</text>
+    <text x="15" y="50" fill="#f472b6" font-size="11">PK  id : VARCHAR</text>
+    <text x="15" y="70" fill="#34d399" font-size="11">FK  ticket_id -> tickets.id</text>
+    <text x="15" y="90" fill="#38bdf8" font-size="11">FK  sender_id -> users.id</text>
+    <text x="15" y="110" fill="#cbd5e1" font-size="11">     content : TEXT</text>
+    <text x="15" y="130" fill="#f43f5e" font-size="11">     is_internal : BOOLEAN</text>
+    <text x="15" y="150" fill="#cbd5e1" font-size="11">     created_at : TIMESTAMP</text>
+  </g>
+
+  <!-- TABLE: email_logs -->
+  <g transform="translate(380, 420)">
+    <rect width="240" height="180" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+    <rect width="240" height="30" rx="8" fill="#155e75"/>
+    <text x="15" y="20" fill="#ffffff" font-size="12" font-weight="700">email_logs</text>
+    <text x="15" y="50" fill="#22d3ee" font-size="11">PK  id : VARCHAR</text>
+    <text x="15" y="70" fill="#34d399" font-size="11">FK  ticket_id -> tickets.id</text>
+    <text x="15" y="90" fill="#cbd5e1" font-size="11">     recipient_email : VARCHAR</text>
+    <text x="15" y="110" fill="#cbd5e1" font-size="11">     email_type : VARCHAR</text>
+    <text x="15" y="130" fill="#cbd5e1" font-size="11">     delivery_status : VARCHAR</text>
+    <text x="15" y="150" fill="#cbd5e1" font-size="11">     provider : VARCHAR (brevo)</text>
+    <text x="15" y="170" fill="#cbd5e1" font-size="11">     message_id : VARCHAR</text>
+  </g>
+
+  <!-- TABLE: audit_logs -->
+  <g transform="translate(730, 460)">
+    <rect width="220" height="150" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <rect width="220" height="30" rx="8" fill="#334155"/>
+    <text x="15" y="20" fill="#ffffff" font-size="12" font-weight="700">audit_logs</text>
+    <text x="15" y="50" fill="#94a3b8" font-size="11">PK  id : VARCHAR</text>
+    <text x="15" y="70" fill="#38bdf8" font-size="11">FK  user_id -> users.id</text>
+    <text x="15" y="90" fill="#cbd5e1" font-size="11">     action : VARCHAR</text>
+    <text x="15" y="110" fill="#cbd5e1" font-size="11">     entity_type : VARCHAR</text>
+    <text x="15" y="130" fill="#cbd5e1" font-size="11">     ip_address : VARCHAR</text>
+  </g>
+
+  <!-- Relationship Lines -->
+  <!-- users -> tickets -->
+  <path d="M 250 160 L 380 160" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3"/>
+  <!-- tickets -> products -->
+  <path d="M 620 160 L 730 160" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3"/>
+  <!-- tickets -> orders -->
+  <path d="M 620 220 L 730 320" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3"/>
+  <!-- tickets -> ticket_messages -->
+  <path d="M 400 350 L 180 420" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3"/>
+  <!-- tickets -> email_logs -->
+  <path d="M 500 350 L 500 420" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="3"/>
+</svg>

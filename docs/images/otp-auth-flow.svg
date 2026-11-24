@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" width="100%" height="100%" style="background:#0f172a; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="40" y="45" fill="url(#headerGrad)" font-size="24" font-weight="800">OTP Authentication &amp; Verification Sequence</text>
+  <text x="40" y="70" fill="#94a3b8" font-size="13">Cryptographic 6-Digit OTP, SHA-256 Storage, 5-Min Expiry &amp; Dual Login Flow</text>
+
+  <!-- Actors -->
+  <!-- 1. Customer -->
+  <rect x="40" y="100" width="140" height="40" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="110" y="125" fill="#f8fafc" font-size="13" font-weight="600" text-anchor="middle">Customer (Web)</text>
+  <line x1="110" y1="140" x2="110" y2="580" stroke="#334155" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- 2. Frontend -->
+  <rect x="230" y="100" width="140" height="40" rx="8" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="300" y="125" fill="#f8fafc" font-size="13" font-weight="600" text-anchor="middle">React Frontend</text>
+  <line x1="300" y1="140" x2="300" y2="580" stroke="#334155" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- 3. FastAPI Backend -->
+  <rect x="420" y="100" width="160" height="40" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="500" y="125" fill="#f8fafc" font-size="13" font-weight="600" text-anchor="middle">FastAPI Auth API</text>
+  <line x1="500" y1="140" x2="500" y2="580" stroke="#334155" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- 4. Database -->
+  <rect x="630" y="100" width="130" height="40" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="695" y="125" fill="#f8fafc" font-size="13" font-weight="600" text-anchor="middle">SQLite / Postgres</text>
+  <line x1="695" y1="140" x2="695" y2="580" stroke="#334155" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- 5. Brevo API -->
+  <rect x="800" y="100" width="130" height="40" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="865" y="125" fill="#f8fafc" font-size="13" font-weight="600" text-anchor="middle">Brevo API v3</text>
+  <line x1="865" y1="140" x2="865" y2="580" stroke="#334155" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- STEP 1: Registration Form -->
+  <line x1="110" y1="170" x2="300" y2="170" stroke="#38bdf8" stroke-width="1.5"/>
+  <polygon points="295,166 305,170 295,174" fill="#38bdf8"/>
+  <text x="205" y="163" fill="#cbd5e1" font-size="11" text-anchor="middle">1. Submit credentials &amp; phone</text>
+
+  <!-- STEP 2: POST /register -->
+  <line x1="300" y1="200" x2="500" y2="200" stroke="#818cf8" stroke-width="1.5"/>
+  <polygon points="495,196 505,200 495,204" fill="#818cf8"/>
+  <text x="400" y="193" fill="#cbd5e1" font-size="11" text-anchor="middle">2. POST /api/v1/auth/register</text>
+
+  <!-- Backend logic: Generate OTP & Hash -->
+  <rect x="440" y="220" width="120" height="35" rx="6" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="500" y="235" fill="#e0e7ff" font-size="10" font-weight="600" text-anchor="middle">secrets.randint(6 digits)</text>
+  <text x="500" y="248" fill="#c7d2fe" font-size="9" text-anchor="middle">Compute SHA-256 Hash</text>
+
+  <!-- STEP 3: Store hash in DB -->
+  <line x1="500" y1="275" x2="695" y2="275" stroke="#34d399" stroke-width="1.5"/>
+  <polygon points="690,271 700,275 690,279" fill="#34d399"/>
+  <text x="600" y="268" fill="#cbd5e1" font-size="11" text-anchor="middle">3. Save user (is_verified=False, hash, 5m exp)</text>
+
+  <!-- STEP 4: Brevo Email Dispatch -->
+  <line x1="500" y1="310" x2="865" y2="310" stroke="#fbbf24" stroke-width="1.5"/>
+  <polygon points="860,306 870,310 860,314" fill="#fbbf24"/>
+  <text x="680" y="303" fill="#cbd5e1" font-size="11" text-anchor="middle">4. POST https://api.brevo.com/v3/smtp/email (OTP Code)</text>
+
+  <!-- STEP 5: Response to frontend -->
+  <line x1="500" y1="345" x2="300" y2="345" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3"/>
+  <polygon points="305,341 295,345 305,349" fill="#94a3b8"/>
+  <text x="400" y="338" fill="#94a3b8" font-size="11" text-anchor="middle">5. 201 Created (status=OTP_SENT, dev_otp=None)</text>
+
+  <!-- STEP 6: Customer enters OTP -->
+  <line x1="110" y1="385" x2="300" y2="385" stroke="#38bdf8" stroke-width="1.5"/>
+  <polygon points="295,381 305,385 295,389" fill="#38bdf8"/>
+  <text x="205" y="378" fill="#cbd5e1" font-size="11" text-anchor="middle">6. Customer receives email &amp; inputs 6 digits</text>
+
+  <!-- STEP 7: POST /verify-otp -->
+  <line x1="300" y1="420" x2="500" y2="420" stroke="#818cf8" stroke-width="1.5"/>
+  <polygon points="495,416 505,420 495,424" fill="#818cf8"/>
+  <text x="400" y="413" fill="#cbd5e1" font-size="11" text-anchor="middle">7. POST /api/v1/auth/verify-otp</text>
+
+  <!-- Backend logic: Check hash, expiry, attempts -->
+  <rect x="430" y="440" width="140" height="35" rx="6" fill="#065f46" stroke="#10b981" stroke-width="1"/>
+  <text x="500" y="455" fill="#ecfdf5" font-size="10" font-weight="600" text-anchor="middle">Verify SHA-256 Hash</text>
+  <text x="500" y="468" fill="#a7f3d0" font-size="9" text-anchor="middle">Expiry &lt; 5m, Attempts &lt; 5</text>
+
+  <!-- STEP 8: Activate user in DB -->
+  <line x1="500" y1="495" x2="695" y2="495" stroke="#34d399" stroke-width="1.5"/>
+  <polygon points="690,491 700,495 690,499" fill="#34d399"/>
+  <text x="600" y="488" fill="#cbd5e1" font-size="11" text-anchor="middle">8. is_verified=True, clear OTP, save RefreshToken</text>
+
+  <!-- STEP 9: Issue JWT Tokens -->
+  <line x1="500" y1="535" x2="300" y2="535" stroke="#22c55e" stroke-width="1.5"/>
+  <polygon points="305,531 295,535 305,539" fill="#22c55e"/>
+  <text x="400" y="528" fill="#4ade80" font-size="11" font-weight="600" text-anchor="middle">9. 200 OK (access_token, refresh_token, HttpOnly Cookie)</text>
+
+  <!-- STEP 10: Portal Access -->
+  <line x1="300" y1="565" x2="110" y2="565" stroke="#22c55e" stroke-width="1.5"/>
+  <polygon points="115,561 105,565 115,569" fill="#22c55e"/>
+  <text x="205" y="558" fill="#4ade80" font-size="11" font-weight="600" text-anchor="middle">10. Redirect to Customer Dashboard</text>
+</svg>
